@@ -43,3 +43,5 @@ async function deleteUserEqp(req, res) {
         res.status(500).json({ error: "Error removing equipment." });
     }
 }
+
+module.exports = {addEqp, addUserEqp, deleteUserEqp}

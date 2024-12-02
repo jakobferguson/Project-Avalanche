@@ -1,7 +1,7 @@
 CREATE DATABASE avalanche;
 
 CREATE TABLE Users (
-    userID INTEGER PRIMARY KEY,
+    userID TEXT PRIMARY KEY,
     full_name TEXT NOT NULL,
     pw TEXT NOT NULL,
     u_weight INTEGER,
@@ -15,7 +15,7 @@ CREATE TABLE Eqp (
 
 CREATE TABLE Eqp_Owned (
     eqp_name TEXT,
-    userID INTEGER,
+    userID TEXT,
     FOREIGN KEY (eqp_name) REFERENCES Eqp(eqp_name),
     FOREIGN KEY (userID) REFERENCES Users(userID)
 );
@@ -39,7 +39,7 @@ CREATE TABLE Workout (
     w_name TEXT,
     w_type TEXT,
     modifiable INTEGER,
-    userID INTEGER,
+    userID TEXT,
     FOREIGN KEY (userID) REFERENCES Workout(wid)
 );
 
@@ -54,14 +54,14 @@ CREATE TABLE Exc_included (
 
 CREATE TABLE Health_Log (
     I_timestamp TEXT PRIMARY KEY,
-    userID INTEGER,
+    userID TEXT,
     I_weight INTEGER NOT NULL,
     FOREIGN KEY (userID) REFERENCES Users(userID)
 );
 
 CREATE TABLE Lifting_Log (
     I_timestamp TEXT PRIMARY KEY,
-    userID INTEGER,
+    userID TEXT,
     exc_name TEXT,
     lift_weight INTEGER NOT NULL,
     lift_sets INTEGER NOT NULL,

@@ -3,15 +3,24 @@ const db = require('../config/db');
 
 
 async function createAccount(req, res) {
-    const { email, password, weight, goals } = req.body;
+    const { email, full_name, password, u_weight, g_weight, g_macros } = req.body;
+
+    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-    const query = `INSERT INTO Users (email, password, weight, goals) VALUES ($1, $2, $3, $4) RETURNING id`;
-    
+
+    // SQL query to insert the user into the database
+    const query = `
+        INSERT INTO Users (userID, full_name, pw, u_weight, g_weight, g_macros)
+        VALUES ($1, $2, $3, $4, $5, $6)
+        RETURNING userID
+    `;
+
     try {
-        const result = await db.query(query, [email, hashedPassword, weight, goals]);
-        res.status(201).json({ userId: result.rows[0].id });
+        // Execute the query
+        const result = await db.query(query, [email, full_name, hashedPassword, u_weight, g_weight, g_macros]);
+        res.status(201).json({ userId: result.rows[0].userID });
     } catch (error) {
-        console.error(error);
+        console.error('Error creating account:', error);
         res.status(500).json({ error: 'Error creating account' });
     }
 }
@@ -19,7 +28,7 @@ async function createAccount(req, res) {
 
 async function login(req, res) {
     const { email, password } = req.body;
-    const query = `SELECT * FROM Users WHERE email = $1`;
+    const query = `SELECT * FROM Users WHERE userID = $1`;
 
     try {
         const result = await db.query(query, [email]);
@@ -38,7 +47,7 @@ async function login(req, res) {
 
 async function deleteAccount(req, res) {
   const { userId } = req.params;
-  const query = `DELETE FROM Users WHERE id = $1`;
+  const query = `DELETE FROM Users WHERE userID = $1`;
 
   try {
       await db.query(query, [userId]);
@@ -49,4 +58,4 @@ async function deleteAccount(req, res) {
   }
 }
 
-module.exports = { createAccount, login };
+module.exports = { createAccount, login, deleteAccount };

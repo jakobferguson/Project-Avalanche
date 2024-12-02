@@ -38,3 +38,5 @@ async function viewExcByType(req, res) {
       res.status(500).json({ error: "Error viewing exercises by type." });
   }
 }
+
+module.exports = {addExc, deleteExc, viewExcByType}

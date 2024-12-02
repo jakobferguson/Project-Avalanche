@@ -1,58 +1,16 @@
-require("dotenv").config();
+const express = require('express');
+const userRoutes = require('./src/routes/userRoutes');
+const workoutRoutes = require('./src/routes/workoutRoutes');
+const equipmentRoutes = require('./src/routes/equipmentRoutes');
 
-const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-//middleware
-app.use(express.json())
+app.use(express.json());
 
-//                   ROUTES
-
-//get all workouts
-//add db functionality
-app.get("/api/workouts", (req, res) => {
-    res.status(200).json({
-        status: "success",
-        workouts: ["pushup", "pull up"]
-    });
-});
-
-//get workout
-app.get("/api/workouts/:id", (req, res) => {
-    console.log(req.params);
-
-    res.status(200).json({
-        status: "success",
-    });
-});
-
-//create workout 
-app.post("/api/workouts", (req, res) => {
-    console.log(req.body);
-
-    res.status(201).json({
-        status: "success",
-    });
-});
-
-//update workouts
-app.put("/api/workouts/:id", (req, res) => {
-    console.log(req.params.id)
-    console.log(req.body);
-
-    res.status(200).json({
-        status: "success",
-    });
-});
-
-//delete workouts
-app.put("/api/workouts/:id", (req, res) => {
-    res.status(204).json({
-        status: "success",
-    });
-});
-
+app.use('/api/users', userRoutes);
+app.use('/api/workouts', workoutRoutes);
+app.use('/api/equipment', equipmentRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
