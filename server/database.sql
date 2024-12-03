@@ -1,4 +1,4 @@
-CREATE DATABASE avalanche;
+CREATE DATABASE workoutdb;
 
 CREATE TABLE Users (
     userID TEXT PRIMARY KEY,
@@ -40,7 +40,7 @@ CREATE TABLE Workout (
     w_type TEXT,
     modifiable INTEGER,
     userID TEXT,
-    FOREIGN KEY (userID) REFERENCES Workout(wid)
+    FOREIGN KEY (userID) REFERENCES Users(userID)
 );
 
 CREATE TABLE Exc_included (
